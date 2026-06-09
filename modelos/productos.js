@@ -35,7 +35,7 @@ export const productos = [
             pantalla: '5,8 Super Retina XDR - OLED Multi - Touch'
         },
         precio: 23289900,
-        imagen: 'Iphone-11-Pro-Max.jpg',
+        imagen: 'iPhone-11-Pro-Max.jpg',
         categoria: 'Telefonía'
     }
 ]
