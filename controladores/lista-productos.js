@@ -2,10 +2,31 @@ import { productos as productosIniciales  } from "../modelos/productos.js";
 
 // Elementos del DOM
 const listaProductos = document.querySelector('#lista-productos');
+const btnNuevo = document.querySelector("#btn-nuevo-producto");
+const btnlogo = document.querySelector("#dialogo-producto");
+const formProducto = document.querySelector("#form-producto");
+const btnCancelar = document.querySelector("#btn-cancelar");
+const dialogoTitulo = document.querySelector("#dialogo-titulo");
+const inputCodigo = document.querySelector("#prod-codigo");
 
 document.addEventListener("DOMContentLoaded", ()=> {
     mostrarProductos();
+    InicializarEventos();
 })
+
+const inicializarEventos = () => {
+    // Abrir el modal de creación
+    btnNuevo.addEventListener("click", () => {
+        dialogoTitulo.textContent = "Cargar producto";
+        formProducto.reset();
+        dialogo.showModal();
+    });
+
+    // Cerrar Modal
+    btnCancelar.addEventListener("click", () => {
+        dialogo.close();
+    });
+}
 
 const obtnerProductos = () => {
     const prodStr = localStorage.getItem('productos');
