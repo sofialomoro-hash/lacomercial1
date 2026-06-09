@@ -1,4 +1,4 @@
-import { productos } from "../modelos/productos.js";
+import { productos as productosIniciales  } from "../modelos/productos.js";
 
 // Elementos del DOM
 const listaProductos = document.querySelector('#lista-productos');
@@ -7,11 +7,21 @@ document.addEventListener("DOMContentLoaded", ()=> {
     mostrarProductos();
 })
 
+const obtnerProductos = () => {
+    const prodStr = localStorage.getItem('productos');
+    if (!prodStr) {
+        localStorage.setItem('productos', JSON.stringify(productosIniciales));
+        return productosIniciales;
+    }
+    return JSON.parse(prodStr);
+}
+
 /**
  * Muestra la lista de productos
  */
 const mostrarProductos = () => {
     listaProductos.innerHTML = '';
+    const productos = obtnerProductos();
     productos.map(producto => (
         listaProductos.innerHTML += `
             <article class="servicio">
