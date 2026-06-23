@@ -8,11 +8,12 @@ const btnlogo = document.querySelector("#dialogo-producto");
 const formProducto = document.querySelector("#form-producto");
 const btnCancelar = document.querySelector("#btn-cancelar");
 const dialogoTitulo = document.querySelector("#dialogo-titulo");
+const inputCodigo = document.querySelector('#prod-codigo');
 const inputModoEdicion = document.querySelector("#modo-edicion");
 
 document.addEventListener("DOMContentLoaded", ()=> {
     mostrarProductos();
-    InicializarEventos();
+    inicializarEventos();
 })
 
 const inicializarEventos = () => {
@@ -63,7 +64,7 @@ const inicializarEventos = () => {
     });
 }
 
-const obtnerProductos = () => {
+const obtenerProductos = () => {
     const prodStr = localStorage.getItem('productos');
     if (!prodStr) {
         localStorage.setItem('productos', JSON.stringify(productosIniciales));
@@ -77,7 +78,7 @@ const obtnerProductos = () => {
  */
 const mostrarProductos = () => {
     listaProductos.innerHTML = '';
-    const productos = obtnerProductos();
+    const productos = obtenerProductos();
     productos.map(producto => (
         listaProductos.innerHTML += `
             <article class="servicio">
@@ -115,7 +116,7 @@ const guardarProductos = (lista) => {
  * @returns {boolean} - true si se insertó correctamente, false si ya existe
  */
 export const insertar = (productoNuevo) => {
-    const productos = obtnerProductos();
+    const productos = obtenerProductos();
     const existe = productos.some(p => p.codigo === Number(productoNuevo.codigo));
     if (existe) {
         alert("Ya existe u producto con el código" + productoNuevo.codigo);
