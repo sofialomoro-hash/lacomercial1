@@ -4,10 +4,26 @@ const URL = './api/datos.php?tabla=productos';
 * Selecciona los productos de la BD
 */
 export async function seleccionarProductos() {
-let res = await fetch(URL);
-let datos = await res.json();
-if(res.status !== 200) {
-throw Error('Los datos no se encontraron');
+    let res = await fetch(URL);
+    let datos = await res.json();
+    if(res.status !== 200) {
+        throw Error('Los datos no se encontraron');
+    }
+    return datos;
 }
-return datos;
+
+/**
+ * Insertar los datos en la BD
+ * @param {*} datos : Los datos a insertar
+ */
+export function insertarProducto(datos) {
+    fetch (`${URL}&accion=insertar`, {
+        method: 'POST',
+        body: datos
+    })
+    .then(res => res.json())
+    .then(data => {
+        console.log(data);
+        return data;
+    })
 }
