@@ -107,7 +107,7 @@ class Modelo extends Conexion {
         $campos = implode(",",array_keys($datos));
         $valores = implode("','",array_values($datos));
 
-        $sql = "INSERT INTO $this->tabla ($campos) VALUES ($valores)";
+        $sql = "INSERT INTO $this->tabla ($campos) VALUES ('$valores')";
         // echo $sql;
 
         if ($this->db->query($sql)) {

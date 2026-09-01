@@ -37,7 +37,5 @@ if(isset($_GET['tabla'])) { // Si está seteado el parámetro tabla
 
     }
 
-    }
-
 }
 ?>
