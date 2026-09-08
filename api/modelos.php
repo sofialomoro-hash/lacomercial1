@@ -104,17 +104,45 @@ class Modelo extends Conexion {
         // INSERT INTO productos (codigo, nombre, descripcion, precio, stock, imagen)
         // VALUES ('201', 'Motorola G9', 'Un gran teléfono', '450000', '30', 'motorola.jpg')
         unset($datos->id);
-        $campos = implode(",",array_keys($datos));
-        $valores = implode("','",array_values($datos));
+        $campos = implode(",",array_keys($datos)); // Separar las claves del array
+        $valores = implode("','",array_values($datos)); // Separamos los valores del array
+        
 
+        //Ejecutamos la instrucción SQL y devolvemos el id
         $sql = "INSERT INTO $this->tabla ($campos) VALUES ('$valores')";
-        // echo $sql;
+        // echo $sql; // Mostramos la instrucción SQL
 
         if ($this->db->query($sql)) {
+            // Si la consulta fue exitosa, devolvemos el ID autoincremental
             return $this->db->insert_id;
         } else {
+            // Si hubo un error, devolvemos 0 o falso
             return 0;
         }
+    }
+
+    /**
+     * Actualiza un registro en la BD
+     * @param $datos: Los datos a modificar
+     */
+    public function actualizar($datos) {
+        // UPDATE productos SET codigo='101', nombre='Samsung A56', ... WHERE id='3'
+        $actualizaciones = [];
+        foreach($datos as $key => $value) {
+            $actualizaciones[] = "$key='$value'";
+        }
+        $sql = "UPDATE $this->tabla SET " . implode(",", $actualizaciones) . " WHERE $this->criterio";
+        // echo $sql;
+        $this->db->query($sql);
+    }
+
+    /**
+     * Elimina un registro de la BD
+     */
+    public function eliminar() {
+        //DELETE FROM productos WHERE id='1'
+        $sql = "DELETE FROM $this->tabla WHERE $this->criterio";
+        $this->db->query($sql);
     }
 }
 ?>
