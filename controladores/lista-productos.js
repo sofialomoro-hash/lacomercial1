@@ -1,4 +1,4 @@
-import { seleccionarProductos, insertarProducto, actualizarProducto, eliminarProducto} from "../modelos/productos.js";
+import { seleccionarProductos, insertarProducto, actualizarProducto, eliminarProducto } from "../modelos/productos.js";
 
 // Elementos del DOM
 const alerta = document.querySelector('#alerta');
@@ -10,6 +10,7 @@ const btnCancelar = document.querySelector('#btn-cancelar');
 const dialogoTitulo = document.querySelector('#dialogo-titulo');
 const inputCodigo = document.querySelector('#prod-codigo');
 const inputModoEdicion = document.querySelector('#modo-edicion');
+const formImagen = document.querySelector('#form-imagen');
 
 // Variables
 let productos = [];
@@ -40,7 +41,7 @@ const inicializarEventos = () => {
     formProducto.addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const id = producto.id
+        const id = producto.id;
         const productoData = new FormData(formProducto);
 
         const esEdicion = inputModoEdicion.value === 'true';
@@ -71,10 +72,10 @@ const inicializarEventos = () => {
 const insertarAlerta = (mensaje, tipo) => {
     const envoltorio = document.createElement('div');
     envoltorio.innerHTML = `
-    <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
-      <div>${mensaje}</div>
-      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-    </div>
+        <div class="alert alert-${tipo} alert-dismisible" role="alert">
+            <div>${mensaje}</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+        </div>
     `;
     alerta.append(envoltorio);
 }
@@ -99,7 +100,7 @@ const mostrarProductos = async () => {
             <article class="servicio">
                 <h3><span name="codigo">${producto.codigo}</span> - <span name="nombre">${producto.nombre}</span></h3>
                 <div class="servicio-icono">
-                    <img src="./imagenes/productos/${producto.imagen}" alt="">
+                    <img src="./imagenes/productos/${producto.imagen || 'nodisponible.png'}" alt="">
                 </div>
                 <div style="text-align: center">
                     <img src="./imagenes/memory.svg" alt=""> | 
@@ -111,8 +112,8 @@ const mostrarProductos = async () => {
                 <h4>$ <span name="precio">${producto.precio}</span>.-</h4>
                 <button class="boton" onclick="agregar(this)">Comprar</button>                
                 <div class="admin-opciones">
-                    <button class="boton-card-editar" data-id="${producto.codigo}">Editar</button>
-                    <button class="boton-card-eliminar" data-id="${producto.codigo}">Eliminar</button>
+                    <button class="boton-card-editar" data-id="${producto.id}">Editar</button>
+                    <button class="boton-card-eliminar" data-id="${producto.id}">Eliminar</button>
                 </div>
             </article>
         `
@@ -126,7 +127,7 @@ const mostrarProductos = async () => {
  */
 export const eliminar = async (id) => {
     if(confirm(`¿Está seguro que desea eliminar al producto código ${id}`)) {
-       respuesta = await eliminarProducto(id);
+        respuesta = await eliminarProducto(id);
         insertarAlerta(respuesta.message, 'danger');
         mostrarProductos();
         return true;
@@ -152,8 +153,9 @@ const abrirModalModificar = (id) => {
     
     document.getElementById('prod-nombre').value = producto.nombre;
     document.getElementById('prod-precio').value = producto.precio;
-    document.getElementById('prod-imagen').value = producto.imagen;
     document.getElementById('prod-descripcion').value = producto.descripcion;
+
+    formImagen.src = `./imagenes/productos/${producto.imagen}`;
     
     dialogo.showModal();
 }

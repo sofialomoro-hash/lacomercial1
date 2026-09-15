@@ -5,13 +5,46 @@ require_once 'modelos.php';
 if(isset($_GET['tabla'])) { // Si está seteado el parámetro tabla
     $tabla = new Modelo($_GET['tabla']); // Creamos el objeto tabla
 
-    if(isset($_GET['criterio'])) { // Si está seteado el id
+    if(isset($_GET['id'])) { // Si está seteado el id
         $tabla->setCriterio("id=" . $_GET['id']); // Establecemos el criterio
     }
 
     if(isset($_GET['accion'])) {
         if($_GET['accion'] == 'insertar' || $_GET['accion'] == 'actualizar' || $_GET['accion'] == 'eliminar') {
-            $valores = $_POST;
+            $valores = $_POST; // Guardamos los valores que vienen desde el formulario
+
+            //**** SUBIDA DE IMÁGENES ****//
+            if(                                        // Si
+                isset($_FILES) &&                      // Está seteado en $_FILES Y
+                isset($_FILES['imagen']) &&            // Está seteado imagen dentro de $_FILES 
+                !empty($_FILES['imagen']['name'] &&    // Si NO está vacío el nombre Y
+                !empty($_FILES['imagen']['tmp_name'])) // El nombre temporal
+            ) {
+                if(is_uploaded_file($_FILES['imagen']['tmp_name'])) {
+                    $nombre_temporal = $_FILES['imagen']['tmp_name'];
+                    $nombre = $_FILES['imagen']['name'];
+                    $destino = '../imagenes/productos/' . $nombre;
+
+                    if(move_uploaded_file($nombre_temporal, $destino)) {
+                        $respuesta = [
+                            'success' => true,
+                            'message' => 'Archivo subido correctamente a ' . $destino
+                        ];
+                        $valores['imagen'] = $nombre;
+                    } else{
+                        $respuesta = [
+                            'success' => false,
+                            'message' => 'No se ha podido subir el archivo'
+                        ];
+                        unlink(ini_get('upload_tmp_dir') . $nombre_temporal);
+                    }
+                } else {
+                    $respuesta = [
+                        'success' => false,
+                        'message' => 'El archivo no fue procesado correctamente'
+                    ];
+                }
+            }
         }
 
         switch($_GET['accion']) {

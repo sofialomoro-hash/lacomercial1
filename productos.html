@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>La Comercial</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="./css/estilos.css">
 </head>
+
 <body>
     <header>
         <h1>La Comercial</h1>
@@ -31,11 +34,11 @@
         </div>
 
         <section class="servicios" id="lista-productos">
-        
-        </section>   
-        
+
+        </section>
+
         <!-- Carrito de compras -->
-         <section class="carrito">
+        <section class="carrito">
             <h3>Carrito de compras</h3>
             <table>
                 <thead>
@@ -47,8 +50,8 @@
                         <th>Importe</th>
                     </tr>
                 </thead>
-                <tbody id="lista-tabla">                    
-                
+                <tbody id="lista-tabla">
+
                 </tbody>
                 <tfoot>
                     <tr>
@@ -58,50 +61,87 @@
                     </tr>
                 </tfoot>
             </table>
-         </section>
-        
+        </section>
+
 
     </main>
-    
+
     <!-- Diálogo modal para cargar / modificar productos -->
-     <dialog id="dialogo-producto">
+    <dialog id="dialogo-producto">
         <form id="form-producto" class="formulario-modal">
             <h3 id="dialogo-titulo">Cargar Producto</h3>
             <input type="hidden" id="modo-edicion" value="false" />
-            <div class="campo-modal">
-                <label for="prod-codigo">Código:</label>
-                <input type="number" id="prod-codigo"  name="codigo" min="1" required>
-            </div>
-            <div class="campo-modal">
-                <label for="prod-nombre">Nombre:</label>
-                <input type="text" id="prod-nombre" name="nombre" required>
-            </div>
-            <div class="campo-modal">
-                <label for="prod-precio">Precio ($):</label>
-                <input type="number" id="prod-precio" name="precio" min="0" required>
-            </div>
-            <div class="campo-modal">
-                <label for="prod-imagen">Imagen (ej.: default.jpg):</label>
-                <input type="text" id="prod-imagen" name="imagen" placeholder="default.jpg">
+            <div class="row">
+                <div class="col-3">
+                    <img
+                        class="img-thumbnail"
+                        src="./imagenes/productos/nodisponible.png"
+                        alt=""
+                        id="form-imagen"
+                    />
+                </div>
+                <div class="col-9">
+                    <div class="campo-modal">
+                        <label for="prod-codigo">Código:</label>
+                        <input 
+                        type="number" 
+                        id="prod-codigo" 
+                        name="codigo" 
+                        min="1" 
+                        required>
+                    </div>
+                    <div class="campo-modal">
+                        <label for="prod-nombre">Nombre:</label>
+                        <input 
+                        type="text" 
+                        id="prod-nombre" 
+                        name="nombre" 
+                        required>
+                    </div>
+                    <div class="campo-modal">
+                        <label for="prod-precio">Precio ($):</label>
+                        <input 
+                        type="number" 
+                        id="prod-precio" 
+                        name="precio" 
+                        min="0" 
+                        required>
+                    </div>
+                    <div class="campo-modal">
+                        <label for="prod-imagen">Imagen (ej.: default.jpg):</label>
+                        <input 
+                        type="file" 
+                        id="prod-imagen" 
+                        name="imagen" 
+                        placeholder="default.jpg">
+                    </div>
+                </div>                
             </div>
 
             <fieldset class="especificaciones-grupo">
                 <legend>Descripción</legend>
 
                 <div class="campo-modal">
-                    <textarea type="text" id="prod-descripcion" name="descripcion" placeholder="--Escriba aquí--">
+                    <textarea 
+                    type="text" 
+                    id="prod-descripcion" 
+                    ame="descripcion" 
+                    placeholder="--Escriba aquí--">
                     </textarea>
                 </div>
-                
+
             </fieldset>
 
             <div class="form-botones">
                 <button type="submit" class="boton-dialogo guardar">Guardar</button>
-                <button type="button" id="btn-cancelar" class="boton-dialogo cancelar">Cancelar</button>
+                <button 
+                type="button" 
+                id="btn-cancelar" 
+                class="boton-dialogo cancelar">Cancelar</button>
             </div>
 
         </form>
-     </dialog>
+    </dialog>
 
 
 
@@ -110,8 +150,11 @@
     </footer>
 
     <!-- Scripts -->
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
     <script type="module" src="./controladores/lista-productos.js"></script>
     <script src="./controladores/carrito-compras.js"></script>
 </body>
+
 </html>
