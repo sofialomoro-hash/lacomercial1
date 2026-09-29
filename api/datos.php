@@ -1,6 +1,11 @@
 <?php
+
+header("Content-Type: application/json; charset=utf-8");
+
 // Requerimos el archivo modelos.php
 require_once 'modelos.php';
+require_once 'auth.php';
+
 // Si hay en parámetro tabla
 if(isset($_GET['tabla'])) { // Si está seteado el parámetro tabla
     $tabla = new Modelo($_GET['tabla']); // Creamos el objeto tabla
@@ -17,8 +22,8 @@ if(isset($_GET['tabla'])) { // Si está seteado el parámetro tabla
             if(                                        // Si
                 isset($_FILES) &&                      // Está seteado en $_FILES Y
                 isset($_FILES['imagen']) &&            // Está seteado imagen dentro de $_FILES 
-                !empty($_FILES['imagen']['name'] &&    // Si NO está vacío el nombre Y
-                !empty($_FILES['imagen']['tmp_name'])) // El nombre temporal
+                !empty($_FILES['imagen']['name']) &&    // Si NO está vacío el nombre Y
+                !empty($_FILES['imagen']['tmp_name']) // El nombre temporal
             ) {
                 if(is_uploaded_file($_FILES['imagen']['tmp_name'])) {
                     $nombre_temporal = $_FILES['imagen']['tmp_name'];
@@ -50,11 +55,15 @@ if(isset($_GET['tabla'])) { // Si está seteado el parámetro tabla
         switch($_GET['accion']) {
             case 'seleccionar':
                 $datos = $tabla->seleccionar(); // Ejecutamos el método seleccionar
-                echo $datos;
+                echo json_encode($datos); // Mostramos los datos
                 break;
+
             case 'insertar':
+                $usuario = validarToken(['cliente', 'admin']);
+                // Ejecutamos el método insertar y capturamos el ID
                 $id = $tabla->insertar($valores);
 
+                // Verificamos si se obtuvo un ID válido
                 if($id > 0) {
                     $respuesta = [
                         'success' => true,
@@ -62,16 +71,19 @@ if(isset($_GET['tabla'])) { // Si está seteado el parámetro tabla
                         'id' => $id
                     ];
                 } else {
+                    // En caso de que falte la inserción
                     $respuesta = [
                         'success' => false,
                         'message' => 'Error al insertar el registro'
                     ];
                 }
 
+               // Siempre enviamos la respuesta JSON al final
                 echo json_encode($respuesta);
                 break;
 
                 case 'actualizar':
+                    $usuario = validarToken(['cliente', 'admin']);
                     $tabla->actualizar($valores);
                     $respuesta = [
                         'success' => true,
@@ -81,6 +93,7 @@ if(isset($_GET['tabla'])) { // Si está seteado el parámetro tabla
                     break;
 
                 case 'eliminar':
+                    $usuario = validarToken(['admin']);
                     $tabla->eliminar();
                     $respuesta = [
                         'success' => true,
