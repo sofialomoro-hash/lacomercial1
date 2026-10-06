@@ -59,7 +59,7 @@ if(isset($_GET['tabla'])) { // Si está seteado el parámetro tabla
                 break;
 
             case 'insertar':
-                $usuario = validarToken(['cliente', 'admin']);
+                // $usuario = validarToken(['cliente', 'admin']);
                 // Ejecutamos el método insertar y capturamos el ID
                 $id = $tabla->insertar($valores);
 
@@ -71,7 +71,7 @@ if(isset($_GET['tabla'])) { // Si está seteado el parámetro tabla
                         'id' => $id
                     ];
                 } else {
-                    // En caso de que falte la inserción
+                    // En caso de que falle la inserción
                     $respuesta = [
                         'success' => false,
                         'message' => 'Error al insertar el registro'
